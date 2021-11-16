@@ -1,6 +1,6 @@
 void git_init()
 {
-    
+
     string path = cwd + "/git/version/v_1";
     string idxfile = path + "/index.txt";
     string logfile = cwd + "/git/log.txt";
