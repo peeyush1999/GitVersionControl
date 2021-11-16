@@ -1,6 +1,7 @@
-#include "header.h"
+#include "headers.h"
+#include "misc.h"
 #include "init.h"
-#include "fetchfile.h"
+#include "commit.h"
 
 
 
@@ -10,12 +11,12 @@
 
 int main()
 {
-    //git_init();
-    int v_no = 1;
-    vector<string> v;
-
-    string path = "/git/version/v_1";
+    char tmp[256];
+    getcwd(tmp, 256);
+    cwd = tmp;
     
-    v.push_back("1");
+    git_init();
+    git_commit();
+    
     return 0;
 }
