@@ -15,8 +15,8 @@ int main()
     getcwd(tmp, 256);
     cwd = tmp;
     
-    git_init();
-    git_commit();
+    //git_init();
+    //git_commit();
     
     return 0;
 }

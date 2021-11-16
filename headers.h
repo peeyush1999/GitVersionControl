@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <fstream>
 #include <iostream>
-#include "sha1.cpp"
+#include "sha1.hpp"
 #include <chrono>
 #include <ctime>
 #include <fcntl.h>

@@ -1,3 +1,41 @@
+
+string sha1(string s)
+{
+
+    SHA1 checksum;
+    checksum.update(s);
+    return checksum.final();
+
+}
+string& get_file(string name) {
+    string *s = new std::string;
+    s->reserve(1024);
+    fstream fp;
+
+
+    fp.open(name, std::ios::in);
+    if (!(fp.is_open())) {
+        fprintf(stderr, "Unable to open the file\n");
+        exit(EXIT_FAILURE);
+    }
+    else {
+        std::string line;
+        while (fp >> line) {
+            s->append(line);
+        }
+    }
+    fp.close();
+    return *s;
+}
+string get_sha(string filepath)
+{
+    string *buffer = &(getFile(filepath));
+    return sha1(*buffer);
+}
+
+
+
+
 int check(int exp, const char *msg)
 {
     if (exp == -1)
