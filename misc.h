@@ -29,7 +29,7 @@ string& get_file(string name) {
 }
 string get_sha(string filepath)
 {
-    string *buffer = &(getFile(filepath));
+    string *buffer = &(get_file(filepath));
     return sha1(*buffer);
 }
 
@@ -63,16 +63,13 @@ void copyFile(string SfilePath, string DfilePath)
 
 
 
-void fetch_file(int vno, string filename, vector<string> list, string path1)
+void fetch_file(string vno, string filename, vector<string> list1, string path1)
 {
 
-	char tmp[256];
-    getcwd(tmp,256);
-    string cwd(tmp);
-    string v_no = to_string(vno);
-
+    string v_no = vno;
+    vector<string> list(list1.begin()+3,list1.end());
     //no changes required to file in current version
-    if(list.size()!=0  && (list[ list.size() -1 ] == to_string(v_no) ) )
+    if(list.size()!=0  && (list[ list.size() -1 ] == v_no ) )
     {
     	list.pop_back();
     }
@@ -83,8 +80,8 @@ void fetch_file(int vno, string filename, vector<string> list, string path1)
     	//path where the file introduced for the first time....
     	string parent_path = cwd + "/git/version/v_" + list[0] + "/"+filename;
 
-    	string bash_cmd ="diff "+parent_path+" "+ cwd+"/"+file + " > " + path1+"/"+file ;
-    	system(&cmd[0]);
+    	string bash_cmd ="diff "+parent_path+" "+ cwd+"/"+filename + " > " + path1+"/"+filename;
+    	system(&bash_cmd[0]);
 
     	cout<<"Command Executed : "+bash_cmd<<endl;
     }
@@ -94,7 +91,7 @@ void fetch_file(int vno, string filename, vector<string> list, string path1)
 		string temp_file   = cwd + "/git/version/temp";
 
 		// patch <parent_file> <changes file of prev version> ---------------------------
-		string generate_file_cmd = "patch "+ parent_path + list[0] + "/" + filename + " " + parent_path + list[1] + "/" filename + " -o " + temp_file + "2;";
+		string generate_file_cmd = "patch "+ parent_path + list[0] + "/" + filename + " " + parent_path + list[1] + "/" + filename + " -o " + temp_file + "2;";
         int i=2;
 
         while(i<list.size())
@@ -104,11 +101,11 @@ void fetch_file(int vno, string filename, vector<string> list, string path1)
 
         cout<<generate_file_cmd<<endl;
 
-        system(generate_file_cmd);
+        system(&generate_file_cmd[0]);
 
         generate_file_cmd = "diff "+temp_file+to_string(i)+" "+cwd+"/"+filename + " > " + path1 + "/" + filename;  
 
-        system(generate_file_cmd);
+        system(&generate_file_cmd[0]);
         cout<<generate_file_cmd;
     }
 

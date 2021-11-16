@@ -11,7 +11,9 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <sys/sendfile.h>
-
-
+#include <string.h>
+#include <termios.h>
+#include <dirent.h>
+#include "mycolors.h"
 using namespace std;
-
+string cwd; 

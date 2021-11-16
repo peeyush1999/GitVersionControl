@@ -8,7 +8,7 @@ File Structure :
 		|-----> misc.h
 		|-----> init.h
 		|-----> commit.h
-		|
+		|-----> add.h (work in progress)
 		|
 		|
 		|-----> int main() 
@@ -22,7 +22,7 @@ File Structure :
 		|----->	string get_sha(string filepath) 
 		|-----> int check(int , const char* )
 		|-----> void copyFile(string , string)
-		|-----> void fetch_file(int, string, vector<string>, string)
+		|-----> void fetch_file(string, string, vector<string>, string)
 		
 
 ------>init.h
