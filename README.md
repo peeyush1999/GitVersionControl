@@ -17,6 +17,7 @@ File Structure :
 
 
 ------>misc.h
+		|-----> vector<string> stringToken( string, char)
 		|-----> string sha1(string)
 		|-----> string &get_file(string name)
 		|----->	string get_sha(string filepath) 

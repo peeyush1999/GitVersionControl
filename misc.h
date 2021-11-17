@@ -1,4 +1,25 @@
+vector<string> stringToken( string s , char tok)
+{
+	vector<string> token;
+	string tmp="";
+	for(char ch : s)
+	{
+		if(ch == tok)
+		{
+			token.push_back(tmp);
+			tmp="";
+			continue;
+		}
 
+		tmp+=ch;
+	}
+	if(tmp!="")
+	{
+		token.push_back(tmp);
+	}
+
+	return token;
+}
 string sha1(string s)
 {
 
