@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
     {
         if(cmd=="init")
         {
-            cout<<"hello init";
             if(!(isdir))
             {
                 git_init();
