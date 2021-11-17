@@ -1,13 +1,3 @@
-#include "headers.h"
-#include "misc.h"
-#include "init.h"
-#include "commit.h"
-#include "add.h"
-#include "get_logs.h"
-//#include "status.h"
-
-
-
 string hash_file(string str) {
     string hash = "";
     return hash;
@@ -16,7 +6,7 @@ inline bool exists_test3 (const std::string& name) {
     struct stat buffer;
     return (stat (name.c_str(), &buffer) == 0);
 }
-
+#define PATH_MAX 512
 void git_status()
 {
 
@@ -38,11 +28,7 @@ void git_status()
     ssize_t read;
 
     string data = "";
-    while ((read = getline(&line, &len, fptr)) != -1) 
-        {   
-            cout<<read<<endl; 
-            data.push_back(*line);   
-        }
+    while ((read = getline(&line, &len, fptr)) != -1) {    data.push_back(*line);   }
     line = NULL;
     //cout<<data<<endl<<line;
     string path1 = "";
@@ -137,41 +123,4 @@ void git_status()
             }
         }
     }
-}
-//void fetch_file(int vno, string filename, vector<string> list, string path1);
-
-
-int main(int argc, char *argv[])
-{
-
-    if(argc < 2)
-    {
-        cout<<"ENter Valid Parameter";
-        exit(0);
-    }
-    char tmp[256];
-    getcwd(tmp, 256);
-    cwd = tmp;
-
-    vector<string> cmd(argv,argv+argc);
-
-    if(cmd[1]=="init")
-    {
-        git_init();    
-    }
-    else if(cmd[1]=="commit")
-    {
-        git_commit();    
-    }
-    else if(cmd[1]=="add")
-    {
-        git_add();    
-    }
-    else if(cmd[1]=="status")
-    {
-        git_status();
-    }
-
-
-    return 0;
 }

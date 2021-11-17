@@ -11,7 +11,9 @@ void git_add()
 	string path1 =  cwd+"/git/version/v_"+v_no;
 	string ind_file = path1 + "/index.txt";
 
-	cout<<ind_file<<endl;
+	LOGY("CWD:"+cwd);
+	LOGY("Path1 : "+path1);
+	LOGY("index file:"+ind_file);
 
 	unordered_map<string, vector<string> > mmap;
 	ifstream index(ind_file);
@@ -24,11 +26,11 @@ void git_add()
 		
 		vector<string> parts = stringToken(line,' ');
 		int len=parts.size();
-		cout<<"----->"<<parts[0]<<" "<<parts[1]<<endl;				
+		LOGP("----->"+parts[0]+" "+parts[1]);				
 		for(int i=1;i<len;i++)
 		{
 			mmap[parts[0]].push_back(parts[i]);
-			//cout<<"	|------>"<<parts[i]<<endl;
+			LOG("	|------>"+parts[i]);
 		}
 	}
 	index.close();
@@ -53,8 +55,7 @@ void git_add()
 	        {
 	            // current object is file calculating sha
 	        	string sha = get_sha(filename);
-	        	cout<<filename<<" ";
-	        	cout<<sha<<endl;
+	        	
 
 
 	        	if(mmap.find(filename)==mmap.end())
@@ -64,29 +65,29 @@ void git_add()
 	        		mmap[filename].push_back("O");
 	        		mmap[filename].push_back(v_no);
                     copyFile(filename,path1+"/"+filename);
-
+                    LOGY(filename+" "+sha+" file is added!!!");
 	        	}
 	        	else
 	        	{
 	        		if(mmap[filename][0]==sha)
 	        		{
-	        			cout<<"file is not modified!!!";
+	        			LOGG(filename+" "+sha+" file is not modified!!!");		
 	        			continue;
 	        		}
 	        		else
 	        		{
+	        			LOGR(filename+" "+sha+" file is modified!!!");		
 	        			mmap[filename][0]=sha;
 	        			if(mmap[filename][1]==v_no)
 	        				copyFile(filename,path1+"/"+filename);
 	        			else
 	        			{
+	        				LOG("Calling Fetch File!!!");
 	        				fetch_file(v_no,filename,mmap[filename],path1);
 	        				
 	        				int len = mmap[filename].size();
 	        				if(mmap[filename][len -1]!=v_no)
-	        					mmap[filename].push_back(v_no);	
-	        				
-
+	        					mmap[filename].push_back(v_no);		        				
 	        			}
 
 

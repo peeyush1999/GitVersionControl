@@ -70,6 +70,7 @@ int check(int exp, const char *msg)
 // copy file with same permissions
 void copyFile(string SfilePath, string DfilePath)
 {
+    
     int source = open(SfilePath.c_str(), O_RDONLY, 0);
     int dest = open(DfilePath.c_str(), O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     struct stat stat_source;
@@ -104,7 +105,7 @@ void fetch_file(string vno, string filename, vector<string> list1, string path1)
     	string bash_cmd ="diff "+parent_path+" "+ cwd+"/"+filename + " > " + path1+"/"+filename;
     	system(&bash_cmd[0]);
 
-    	cout<<"Command Executed : "+bash_cmd<<endl;
+    	LOG(CYAN("Command Executed : "+bash_cmd));
     }
     else
     {
@@ -120,14 +121,14 @@ void fetch_file(string vno, string filename, vector<string> list1, string path1)
             generate_file_cmd += "patch "+temp_file+to_string(i)+" "+parent_path+list[i]+"/"+filename+" -o "+temp_file+to_string(i+1)+";";
         }
 
-        cout<<generate_file_cmd<<endl;
+        LOG(CYAN(generate_file_cmd));
 
         system(&generate_file_cmd[0]);
 
         generate_file_cmd = "diff "+temp_file+to_string(i)+" "+cwd+"/"+filename + " > " + path1 + "/" + filename;  
 
         system(&generate_file_cmd[0]);
-        cout<<generate_file_cmd;
+        LOG(CYAN(generate_file_cmd));
     }
 
 }
