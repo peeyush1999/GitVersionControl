@@ -38,10 +38,10 @@ void git_status()
     ssize_t read;
 
     string data = "";
-    while ((read = getline(&line, &len, fptr)) != -1) 
-        {   
-            cout<<read<<endl; 
-            data.push_back(*line);   
+    while ((read = getline(&line, &len, fptr)) != -1)
+        {
+            cout<<read<<endl;
+            data.push_back(*line);
         }
     line = NULL;
     //cout<<data<<endl<<line;
@@ -143,33 +143,85 @@ void git_status()
 
 int main(int argc, char *argv[])
 {
-
-    if(argc < 2)
-    {
-        cout<<"ENter Valid Parameter";
-        exit(0);
-    }
     char tmp[256];
     getcwd(tmp, 256);
     cwd = tmp;
-
-    vector<string> cmd(argv,argv+argc);
-
-    if(cmd[1]=="init")
+    string gitdir=cwd+"/git";
+    struct stat sb;
+    stat(gitdir.c_str(), &sb);
+    bool isdir = S_ISDIR(sb.st_mode);
+    string cmd=argv[1];
+    if (argc==2)
     {
-        git_init();    
+        if(cmd=="init")
+        {
+            if(!(isdir))
+            {
+                git_init();
+                exit(0);
+            }
+            else
+            {
+                cout<<"Already created"<<endl;
+                exit(0);
+            }
+        }
+        if(cmd=="commit")
+        {
+            if(isdir)
+            {
+                git_commit();
+                exit(0);
+            }
+            else
+            {
+                cout<<"Git directory not Initialised"<<endl;
+                exit(0);
+            }
+        }
+        if(cmd=="status")
+        {
+            if(isdir)
+            {
+                //git_status();
+                exit(0);
+            }
+            else
+            {
+                cout<<"Git directory not Initialised"<<endl;
+                exit(0);
+            }
+        }
     }
-    else if(cmd[1]=="commit")
+    if(argc==3)
     {
-        git_commit();    
-    }
-    else if(cmd[1]=="add")
-    {
-        git_add();    
-    }
-    else if(cmd[1]=="status")
-    {
-        git_status();
+        string attr=argv[2];
+        if(cmd=="add" && attr==".")
+        {
+            if(isdir)
+            {
+                git_add();
+                exit(0);
+            }
+            else
+            {
+                cout<<"Git directory not Initialised"<<endl;
+                exit(0);
+            }
+        }
+        if(cmd=="add" && attr!=".")
+        {
+            if(isdir)
+            {
+                //git_add_file();
+                exit(0);
+            }
+            else
+            {
+                cout<<"Git directory not Initialised"<<endl;
+                exit(0);
+            }
+        }
     }
 
 
