@@ -3,7 +3,7 @@
 #include "init.h"
 #include "commit.h"
 #include "add.h"
-
+#include "get_logs.h"
 
 
 

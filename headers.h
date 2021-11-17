@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #include <filesystem>
 #include <unistd.h>
 #include <sys/types.h>
