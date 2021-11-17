@@ -8,8 +8,8 @@ File Structure :
 		|-----> misc.h
 		|-----> init.h
 		|-----> commit.h
-		|-----> add.h (work in progress)
-		|
+		|-----> add.h 
+		|-----> get_logs.h
 		|
 		|-----> int main() 
 
