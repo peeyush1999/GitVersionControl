@@ -26,5 +26,4 @@ void git_init()
     index_file.close();
 
     cout << "Git Initialised" << endl;
-    added = false;
 }

@@ -1,3 +1,4 @@
+
 void git_add()
 {
 	string version = cwd+"/git/version.txt";
@@ -118,7 +119,6 @@ void git_add()
 	   		out<<"\n";
 	   }
 	   out.close();
-	   added = true;
 
 
 }
