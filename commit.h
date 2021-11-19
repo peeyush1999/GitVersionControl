@@ -1,21 +1,20 @@
 void git_commit()
 {
-    char tmp[256];
-    getcwd(tmp, 256);
-    string cwd = tmp;
+    if (!added)
+    {
+        LOG(RED("No data is added to commit"));
+        exit(0);
+    }
 
     // getting version number from version.txt
     string versionfile = cwd + "/git/version.txt";
     ifstream infile;
     infile.open(versionfile, ios::in);
-    string data;
-    infile >> data;
+    int v_no;
+    infile >> v_no;
     infile.close();
 
-    // converting version number to integer and incrementing the version number
-    stringstream con(data);
-    int v_no = 0;
-    con >> v_no;
+    // incrementing the version number
     v_no += 1;
 
     // writing version number to the version.txt
@@ -28,11 +27,10 @@ void git_commit()
     string newDirectory = cwd + "/git/version/v_" + to_string(v_no);
     check(mkdir(newDirectory.c_str(), 0777), "unable to create directory");
 
-
     // copying index file contents to new index file
     string prevIndexPath = cwd + "/git/version/v_" + to_string(v_no - 1) + "/index.txt";
     string newIndexPath = cwd + "/git/version/v_" + to_string(v_no) + "/index.txt";
-    copyFile(prevIndexPath,newIndexPath);
+    copyFile(prevIndexPath, newIndexPath);
 
     // to get current time
     auto currTime = std::chrono::system_clock::now();
@@ -44,7 +42,9 @@ void git_commit()
     outfile.open(log_file, ios::app);
 
     // writing commit time into log file
-    string toLog = "Commit No:" + to_string(v_no - 1) + "\nCommit Time: " + Time + "\n";
+    string toLog = "Commit No:" + to_string(v_no - 1) + "Commit Time: " + Time;
     outfile << toLog;
     outfile.close();
+
+    added = false;
 }

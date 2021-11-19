@@ -40,3 +40,4 @@
 
 using namespace std;
 string cwd; 
+bool added;
