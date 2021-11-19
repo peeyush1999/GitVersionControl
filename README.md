@@ -10,7 +10,7 @@ File Structure :
 		|-----> commit.h
 		|-----> add.h 
 		|-----> get_logs.h
-		|
+		|-----> add_files.h(in progress)
 		|-----> int main() 
 
 
