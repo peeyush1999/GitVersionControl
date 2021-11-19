@@ -105,7 +105,7 @@ void fetch_file(string vno, string filename, vector<string> list1, string path1)
     	string bash_cmd ="diff "+parent_path+" "+ cwd+"/"+filename + " > " + path1+"/"+filename;
     	system(&bash_cmd[0]);
 
-    	LOG(CYAN("Command Executed : "+bash_cmd));
+    	LOGC("Command Executed : "+bash_cmd);
     }
     else
     {
@@ -119,6 +119,7 @@ void fetch_file(string vno, string filename, vector<string> list1, string path1)
         while(i<list.size())
         {
             generate_file_cmd += "patch "+temp_file+to_string(i)+" "+parent_path+list[i]+"/"+filename+" -o "+temp_file+to_string(i+1)+";";
+            i++;
         }
 
         LOG(CYAN(generate_file_cmd));
@@ -130,5 +131,53 @@ void fetch_file(string vno, string filename, vector<string> list1, string path1)
         system(&generate_file_cmd[0]);
         LOG(CYAN(generate_file_cmd));
     }
+
+}
+
+
+void retrieve_file(string vno, string filename, vector<string> list1, string path1)
+{
+    string v_no = vno;
+    vector<string> list(list1.begin()+3,list1.end());
+    //no changes required to file in current version
+    if(list.size()!=0  && (list[ list.size() -1 ] == v_no ) )
+    {
+        list.pop_back();
+    }
+    if(list.size()==1)
+    {
+        //path where the file introduced for the first time....
+        string parent_path = cwd + "/git/version/v_" + list[0] + "/"+filename;
+        LOG(parent_path);
+        string bash_cmd ="cp "+parent_path+" "+ cwd+"/"+filename;
+        system(&bash_cmd[0]);
+
+        LOGC("Command Executed : "+bash_cmd);
+    }
+    else
+    {
+        string parent_path = cwd + "/git/version/v_";
+        string temp_file   = cwd + "/git/version/temp";
+
+        // patch <parent_file> <changes file of prev version> ---------------------------
+        string generate_file_cmd = "patch "+ parent_path + list[0] + "/" + filename + " " + parent_path + list[1] + "/" + filename + " -o " + temp_file + "2;";
+        int i=2;
+
+        while(i<list.size())
+        {
+            generate_file_cmd += "patch "+temp_file+to_string(i)+" "+parent_path+list[i]+"/"+filename+" -o "+temp_file+to_string(i+1)+";";
+            i++;
+        }
+
+        LOGC(generate_file_cmd);
+
+        system(&generate_file_cmd[0]);
+
+        generate_file_cmd = "mv "+temp_file+to_string(i)+" "+cwd+"/"+filename;
+
+        system(&generate_file_cmd[0]);
+        LOGC(generate_file_cmd);
+    }
+
 
 }

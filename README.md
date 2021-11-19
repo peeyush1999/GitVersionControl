@@ -24,7 +24,7 @@ File Structure :
 		|-----> int check(int , const char* )
 		|-----> void copyFile(string , string)
 		|-----> void fetch_file(string, string, vector<string>, string)
-		
+		|-----> void retrieve_file(string, string, vector<string>, string)
 
 ------>init.h
 		|-----> void git_init()

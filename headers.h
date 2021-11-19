@@ -26,6 +26,7 @@
 #define LOGG(x) cout<<RED("LOG: ")<<GREEN(x)<<endl;
 #define LOGP(x) cout<<RED("LOG: ")<<PURPLE(x)<<endl;
 #define LOGR(x) cout<<RED("LOG: ")<<RED(x)<<endl;
+#define LOGC(x) cout<<RED("LOG: ")<<CYAN(x)<<endl;
 
 #else
 
@@ -35,7 +36,7 @@
 #define LOGG(x)
 #define LOGP(x)
 #define LOGR(x)
-
+#define LOGC(x)
 #endif
 
 using namespace std;
