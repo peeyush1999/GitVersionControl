@@ -6,10 +6,10 @@ inline bool exists_test3 (const std::string& name) {
     struct stat buffer;
     return (stat (name.c_str(), &buffer) == 0);
 }
-#define PATH_MAX 512
+
 void git_status()
 {
-
+    
     char cwd[PATH_MAX];
     getcwd(cwd, sizeof(cwd));
     char path[PATH_MAX];

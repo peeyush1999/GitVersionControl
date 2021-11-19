@@ -105,11 +105,23 @@ void git_add()
 	
 
 	 // Updating the index file accordingly
+	   unordered_map<string, vector<string> > new_mmap;
 
+	   for(string s : currDirItem)
+	   {
+	   		if(mmap.find(s)!=mmap.end())
+	   		{
+	   			new_mmap[s]=mmap[s];
+	   		}
+	   		else
+	   		{
+	   			LOGR(s<<" file removed!!!");
+	   		}
 
+	   }
 
 	   ofstream out(ind_file);
-	   for(auto it : mmap)
+	   for(auto it : new_mmap)
 	   {
 	   		out<<(it.first);
 	   		for(string s: it.second)

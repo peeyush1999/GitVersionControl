@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
         {
             if(isdir)
             {
-                //git_status();
+                git_status();
                 exit(0);
             }
             else
