@@ -5,6 +5,7 @@
 #include "add.h"
 #include "get_logs.h"
 #include "status.h"
+#include "add_file.h"
 
 
 int main(int argc, char *argv[])
@@ -79,7 +80,8 @@ int main(int argc, char *argv[])
         {
             if(isdir)
             {
-                //git_add_file();
+                string filename=argv[2];
+                git_add_file(filename);
                 exit(0);
             }
             else
