@@ -32,17 +32,19 @@ void git_add_file(string filename)
 		}
 	}
 	index.close();
-
+	
     
-    string filepath=cwd+"/"+filename;               //Path of given file.
+    string filepath=filename;               //Path of given file.
 	struct stat statbuf,checkFile;
 	stat(filepath.c_str(), &statbuf);
+	cout<<filepath<<endl;
 	if(statbuf.st_mode & S_IFDIR)//True: Directory
 	{
 	    //do nothing
-	}
+	} 
 	else
 	{
+
 	    // file exists , calculating sha of file
 		string sha = get_sha(filepath);
 	

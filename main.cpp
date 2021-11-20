@@ -95,12 +95,12 @@ int main(int argc, char *argv[])
             if(isdir)
             {
                 string filename=argv[2];
-                git_add_file(filename);
+                git_diff_file(filename);
                 exit(0);
             }
             else
             {   
-                git_diff();
+                cout<<"Git directory not Initialised"<<endl;
                 exit(0);
             }
         }
