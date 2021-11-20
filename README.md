@@ -11,6 +11,7 @@ File Structure :
 		|-----> add.h 
 		|-----> get_logs.h
 		|-----> add_files.h(in progress)
+		|-----> git_diff.h
 		|-----> int main() 
 
 
@@ -33,7 +34,9 @@ File Structure :
 ------>commit.h
 		|-----> void git_commit()
 
-	
+------>git_diff.h
+		|-----> void getdiff(string, string, vector<string>, string)
+		|----->	void git_diff()	
 
 
 //======================================

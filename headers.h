@@ -16,7 +16,7 @@
 #include <dirent.h>
 #include "mycolors.h"
 
-#define DEBUG
+
 
 #ifdef DEBUG
 

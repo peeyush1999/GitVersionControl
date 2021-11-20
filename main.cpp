@@ -6,7 +6,7 @@
 #include "get_logs.h"
 #include "status.h"
 #include "add_file.h"
-
+#include "git_diff.h"
 
 int main(int argc, char *argv[])
 {
@@ -82,6 +82,33 @@ int main(int argc, char *argv[])
             {
                 string filename=argv[2];
                 git_add_file(filename);
+                exit(0);
+            }
+            else
+            {
+                cout<<"Git directory not Initialised"<<endl;
+                exit(0);
+            }
+        }
+        if(cmd=="diff" && attr!=".")
+        {
+            if(isdir)
+            {
+                string filename=argv[2];
+                git_add_file(filename);
+                exit(0);
+            }
+            else
+            {   
+                git_diff();
+                exit(0);
+            }
+        }
+        if(cmd=="diff" && attr==".")
+        {
+            if(isdir)
+            {
+                git_diff();
                 exit(0);
             }
             else
