@@ -178,6 +178,46 @@ void retrieve_file(string vno, string filename, vector<string> list1, string pat
         system(&generate_file_cmd[0]);
         LOGC(generate_file_cmd);
     }
+}
+void fetch_file_push(string vno, string filename, vector<string> list1, string path1)
+{
 
+    string v_no = vno;
+    vector<string> list(list1.begin() + 3, list1.end());
 
+    //if this is the very first change
+    if (list.size() == 1)
+    {
+        //path where the file introduced for the first time....
+        string parent_path = cwd + "/git/version/v_" + list[0] + "/" + filename;
+
+        string bash_cmd = "cp " + parent_path + " " + path1 + "/" + filename;
+        system(&bash_cmd[0]);
+
+        LOGC("Command Executed : " + bash_cmd);
+    }
+    else
+    {
+        string parent_path = cwd + "/git/version/v_";
+        string temp_file = cwd + "/git/version/temp";
+
+        // patch <parent_file> <changes file of prev version> ---------------------------
+        string generate_file_cmd = "patch " + parent_path + list[0] + "/" + filename + " " + parent_path + list[1] + "/" + filename + " -o " + temp_file + "2;";
+        int i = 2;
+
+        while (i < list.size())
+        {
+            generate_file_cmd += "patch " + temp_file + to_string(i) + " " + parent_path + list[i] + "/" + filename + " -o " + temp_file + to_string(i + 1) + ";";
+            i++;
+        }
+
+        LOG(CYAN(generate_file_cmd));
+
+        system(&generate_file_cmd[0]);
+
+        string mov_file = "mv " + temp_file + to_string(i) + " " + path1 + "/" + filename;
+
+        system(&mov_file[0]);
+        LOG(CYAN(generate_file_cmd));
+    }
 }

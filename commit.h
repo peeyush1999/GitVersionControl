@@ -13,11 +13,6 @@ void git_commit()
         exit(0);
     }
 
-
-    char tmp[256];
-    getcwd(tmp, 256);
-    string cwd = tmp;
-
     // getting version number from version.txt
     string versionfile = cwd + "/git/version.txt";
     ifstream infile;

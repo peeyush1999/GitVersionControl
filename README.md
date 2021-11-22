@@ -26,6 +26,7 @@ File Structure :
 		|-----> void copyFile(string , string)
 		|-----> void fetch_file(string, string, vector<string>, string)
 		|-----> void retrieve_file(string, string, vector<string>, string)
+		|-----> void fetch_file_push(string, string, vector<string>, string)
 
 ------>init.h
 		|-----> void git_init()
@@ -37,6 +38,9 @@ File Structure :
 ------>git_diff.h
 		|-----> void getdiff(string, string, vector<string>, string)
 		|----->	void git_diff()	
+	
+------>git_push.h
+		|----->	void git_push()	
 
 
 //======================================
