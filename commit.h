@@ -1,5 +1,19 @@
 void git_commit()
 {
+
+    string add_commit = cwd + "/git/add_commit.txt";
+    ifstream add_commit_file(add_commit.c_str());
+    string check_bit;
+    add_commit_file >> check_bit;
+    add_commit_file.close();
+
+    if (check_bit == "00")
+    {
+        cout << "Please add first" << endl;
+        exit(0);
+    }
+
+
     char tmp[256];
     getcwd(tmp, 256);
     string cwd = tmp;
@@ -44,7 +58,12 @@ void git_commit()
     outfile.open(log_file, ios::app);
 
     // writing commit time into log file
-    string toLog = "Commit No:" + to_string(v_no - 1) + "\nCommit Time: " + Time + "\n";
+    string toLog = "Commit No:" + to_string(v_no - 1) + " Commit Time: " + Time;
     outfile << toLog;
     outfile.close();
+
+    
+	ofstream add_commit_file_out(add_commit.c_str());
+    add_commit_file_out << "11";
+    add_commit_file_out.close();
 }

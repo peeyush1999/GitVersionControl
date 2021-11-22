@@ -132,5 +132,10 @@ void git_add()
 	   }
 	   out.close();
 
+	string add_commit = cwd + "/git/add_commit.txt";
+	ofstream add_commit_file(add_commit.c_str());
+    add_commit_file << "10";
+    add_commit_file.close();
+
 
 }
