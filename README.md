@@ -12,6 +12,8 @@ File Structure :
 		|-----> get_logs.h
 		|-----> add_files.h(in progress)
 		|-----> git_diff.h
+		|-----> push.h
+		|-----> rollback.h
 		|-----> int main() 
 
 
@@ -41,6 +43,9 @@ File Structure :
 	
 ------>git_push.h
 		|----->	void git_push()	
+
+------>rollback.h
+		|----->	void git_rollback()	
 
 
 //======================================
