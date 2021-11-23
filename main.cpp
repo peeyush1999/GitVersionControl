@@ -8,6 +8,7 @@
 #include "add_file.h"
 #include "git_diff.h"
 #include "push.h"
+#include "rollback.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +16,7 @@ int main(int argc, char *argv[])
     getcwd(tmp, 256);
     cwd = tmp;
 
-    push_directory = "/home/kiranmai/Documents";
+    push_directory = "/home/peeyushsahu/Documents";
     
     string gitdir = cwd + "/git";
     struct stat sb;
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                cout << "Already created" << endl;
+                cout << RED("Already created") << endl;
                 exit(0);
             }
         }
@@ -42,11 +43,12 @@ int main(int argc, char *argv[])
             if (isdir)
             {
                 git_commit();
+                cout<<GREEN("Commit Successful!!!")<<endl;
                 exit(0);
             }
             else
             {
-                cout << "Git directory not Initialised" << endl;
+                cout << RED("Git directory not Initialised") << endl;
                 exit(0);
             }
         }
@@ -59,7 +61,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                cout << "Git directory not Initialised" << endl;
+                cout << RED("Git directory not Initialised") << endl;
                 exit(0);
             }
         }
@@ -68,11 +70,40 @@ int main(int argc, char *argv[])
             if (isdir)
             {
                 git_push();
+                cout<<GREEN("Local Repository is Successfully pushed to remote!!! ")<<YELLOW(push_directory)<<endl;
                 exit(0);
             }
             else
             {
-                cout << "Git directory not Initialised" << endl;
+                cout << RED("Git directory not Initialised") << endl;
+                exit(0);
+            }
+        }
+        if(cmd == "log")
+        {
+            if(isdir)
+            {
+                get_logs();
+                cout<<endl;
+                exit(0);
+            }
+            else
+            {
+                cout << RED("Git directory not Initialised") << endl;
+                exit(0);
+            }
+        }
+        if(cmd == "rollback")
+        {
+            if(isdir)
+            {
+                git_rollback();
+                cout<<endl;
+                exit(0);
+            }
+            else
+            {
+                cout << RED("Git directory not Initialised") << endl;
                 exit(0);
             }
         }
@@ -89,7 +120,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                cout << "Git directory not Initialised" << endl;
+                cout << RED("Git directory not Initialised") << endl;
                 exit(0);
             }
         }
@@ -103,7 +134,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                cout << "Git directory not Initialised" << endl;
+                cout << RED("Git directory not Initialised") << endl;
                 exit(0);
             }
         }
@@ -117,7 +148,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                cout << "Git directory not Initialised" << endl;
+                cout << RED("Git directory not Initialised") << endl;
                 exit(0);
             }
         }
@@ -130,7 +161,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                cout << "Git directory not Initialised" << endl;
+                cout << RED("Git directory not Initialised") << endl;
                 exit(0);
             }
         }
