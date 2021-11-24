@@ -15,8 +15,6 @@ int main(int argc, char *argv[])
     char tmp[256];
     getcwd(tmp, 256);
     cwd = tmp;
-
-    push_directory = "/home/peeyushsahu/Documents";
     
     string gitdir = cwd + "/git";
     struct stat sb;
@@ -43,7 +41,6 @@ int main(int argc, char *argv[])
             if (isdir)
             {
                 git_commit();
-                cout<<GREEN("Commit Successful!!!")<<endl;
                 exit(0);
             }
             else
@@ -70,7 +67,6 @@ int main(int argc, char *argv[])
             if (isdir)
             {
                 git_push();
-                cout<<GREEN("Local Repository is Successfully pushed to remote!!! ")<<YELLOW(push_directory)<<endl;
                 exit(0);
             }
             else

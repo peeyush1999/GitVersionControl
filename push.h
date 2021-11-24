@@ -2,26 +2,24 @@ void git_push()
 {
 
     string add_commit = cwd + "/git/add_commit.txt";
-    ifstream add_commit_file(add_commit.c_str());
-    string check_bit;
-    add_commit_file >> check_bit;
+    ifstream add_commit_file;
+    add_commit_file.open(add_commit.c_str(), ios::in);
+    string check_bit, push_directory;
+    getline(add_commit_file, check_bit, ' ');
+    getline(add_commit_file, push_directory, ' ');
     add_commit_file.close();
 
     if (check_bit == "00")
     {
-        cout << "Please add and commit first" << endl;
+        cout << RED("       Please add and commit first") << endl;
         exit(0);
     }
 
     if (check_bit == "10")
     {
-        cout << "Please commit first" << endl;
+        cout << RED("       Please commit first") << endl;
         exit(0);
     }
-
-    char tmp[256];
-    getcwd(tmp, 256);
-    string cwd = tmp;
 
     ifstream infile;
     infile.open(cwd + "/git/version.txt", ios::in);
@@ -37,7 +35,6 @@ void git_push()
         exit(-1);
     }
     infile.close();
-
 
     // getting data about files from index file of current version
     string path = cwd + "/git/version/v_" + ver_num;
@@ -70,16 +67,16 @@ void git_push()
     }
     infile.close();
 
-    string push_dir = push_directory + "/push";
+    string push_dir = push_directory;
+    string pushFile = cwd + "/git/push_index.txt";
+    ifstream pushFilein(pushFile.c_str());
+    string check_line;
+    pushFilein >> check_line;
+    pushFilein.close();
 
-    struct stat sb;
-    stat(push_dir.c_str(), &sb);
-    bool isdir = S_ISDIR(sb.st_mode);
-
-    if (!isdir) //This is the first push
+    if (check_line == "") // This is the first push
     {
-        // storing the files and their sha which are pushed in push_file.txt
-        string pushFile = cwd + "/git/push_file.txt";
+        // storing the files and their sha which are pushed in push_index.txt
         ofstream push_file(pushFile.c_str());
         for (auto name : fileDetails)
             push_file << name.first << " " << name.second[0] << "\n";
@@ -90,9 +87,6 @@ void git_push()
         for (auto name : fileDetails)
             filenames.push_back(name.first);
 
-        // creating push directory in the specified path
-        check(mkdir(push_dir.c_str(), 0777), "unable to create directory");
-
         // pushing the files to the push directory
         for (auto name : fileDetails)
             fetch_file_push(ver_num, name.first, name.second, push_dir);
@@ -100,7 +94,6 @@ void git_push()
     else //This occurs for nth push other than one
     {
         // getting filenames and their sha
-        string pushFile = cwd + "/git/push_file.txt";
         infile.open(pushFile, ios::in);
         unordered_map<string, string> pushfileDetails;
 
@@ -130,7 +123,7 @@ void git_push()
                     fetch_file_push(ver_num, name.first, name.second, push_dir);
             }
         }
-        // delete the file in push_directory if deleted in working directory
+        // delete the file in push_directory if deleted in local repository
         for (auto name : pushfileDetails)
         {
             if (fileDetails.find(name.first) == fileDetails.end())
@@ -140,7 +133,7 @@ void git_push()
             }
         }
 
-        // updating the push_file.txt
+        // updating the push_index.txt
         ofstream push_file(pushFile.c_str());
         for (auto name : fileDetails)
             push_file << name.first << " " << name.second[0] << "\n";
@@ -148,6 +141,8 @@ void git_push()
     }
 
     ofstream add_commit_file_out(add_commit.c_str());
-    add_commit_file_out << "00";
+    add_commit_file_out << "00 " << push_directory;
     add_commit_file_out.close();
+
+    cout << YELLOW_B("      Local changes are successfully pushed to remote repository ") << BROWN_B(push_dir) << endl;
 }

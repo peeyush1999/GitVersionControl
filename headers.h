@@ -16,21 +16,19 @@
 #include <dirent.h>
 #include "mycolors.h"
 
-
-
 #ifdef DEBUG
 
-#define LOG(x) cout<<RED("LOG: ")<<x<<endl;
-#define LOGY(x) cout<<RED("LOG: ")<<YELLOW(x)<<endl;
-#define LOGB(x) cout<<RED("LOG: ")<<BLUE(x)<<endl;
-#define LOGG(x) cout<<RED("LOG: ")<<GREEN(x)<<endl;
-#define LOGP(x) cout<<RED("LOG: ")<<PURPLE(x)<<endl;
-#define LOGR(x) cout<<RED("LOG: ")<<RED(x)<<endl;
-#define LOGC(x) cout<<RED("LOG: ")<<CYAN(x)<<endl;
+#define LOG(x) cout << RED("LOG: ") << x << endl;
+#define LOGY(x) cout << RED("LOG: ") << YELLOW(x) << endl;
+#define LOGB(x) cout << RED("LOG: ") << BLUE(x) << endl;
+#define LOGG(x) cout << RED("LOG: ") << GREEN(x) << endl;
+#define LOGP(x) cout << RED("LOG: ") << PURPLE(x) << endl;
+#define LOGR(x) cout << RED("LOG: ") << RED(x) << endl;
+#define LOGC(x) cout << RED("LOG: ") << CYAN(x) << endl;
 
 #else
 
-#define LOG(x) 
+#define LOG(x)
 #define LOGY(x)
 #define LOGB(x)
 #define LOGG(x)
@@ -40,5 +38,4 @@
 #endif
 
 using namespace std;
-string cwd; 
-string push_directory;
+string cwd;

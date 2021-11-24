@@ -202,12 +202,12 @@ void fetch_file_push(string vno, string filename, vector<string> list1, string p
         string temp_file = cwd + "/git/version/temp";
 
         // patch <parent_file> <changes file of prev version> ---------------------------
-        string generate_file_cmd = "patch " + parent_path + list[0] + "/" + filename + " " + parent_path + list[1] + "/" + filename + " -o " + temp_file + "2;";
+        string generate_file_cmd = "patch " + parent_path + list[0] + "/" + filename + " " + parent_path + list[1] + "/" + filename + " -o " + temp_file + "2"+" > /dev/null;";
         int i = 2;
 
         while (i < list.size())
         {
-            generate_file_cmd += "patch " + temp_file + to_string(i) + " " + parent_path + list[i] + "/" + filename + " -o " + temp_file + to_string(i + 1) + ";";
+            generate_file_cmd += "patch " + temp_file + to_string(i) + " " + parent_path + list[i] + "/" + filename + " -o " + temp_file + to_string(i + 1) + " > /dev/null;";
             i++;
         }
 

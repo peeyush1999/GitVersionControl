@@ -2,14 +2,17 @@ void git_commit()
 {
 
     string add_commit = cwd + "/git/add_commit.txt";
-    ifstream add_commit_file(add_commit.c_str());
-    string check_bit;
-    add_commit_file >> check_bit;
+    ifstream add_commit_file;
+    add_commit_file.open(add_commit.c_str(), ios::in);
+    string check_bit, push_directory;
+
+    getline(add_commit_file, check_bit, ' ');
+    getline(add_commit_file, push_directory, ' ');
     add_commit_file.close();
 
     if (check_bit == "00")
     {
-        cout << "Please add first" << endl;
+        cout << RED("       Please add first") << endl;
         exit(0);
     }
 
@@ -37,11 +40,10 @@ void git_commit()
     string newDirectory = cwd + "/git/version/v_" + to_string(v_no);
     check(mkdir(newDirectory.c_str(), 0777), "unable to create directory");
 
-
     // copying index file contents to new index file
     string prevIndexPath = cwd + "/git/version/v_" + to_string(v_no - 1) + "/index.txt";
     string newIndexPath = cwd + "/git/version/v_" + to_string(v_no) + "/index.txt";
-    copyFile(prevIndexPath,newIndexPath);
+    copyFile(prevIndexPath, newIndexPath);
 
     // to get current time
     auto currTime = std::chrono::system_clock::now();
@@ -57,8 +59,9 @@ void git_commit()
     outfile << toLog;
     outfile.close();
 
-    
-	ofstream add_commit_file_out(add_commit.c_str());
-    add_commit_file_out << "11";
+    ofstream add_commit_file_out(add_commit.c_str());
+    add_commit_file_out << "11 " << push_directory;
     add_commit_file_out.close();
+
+    cout << YELLOW_B("      Commit Successful!!!") << endl;
 }
