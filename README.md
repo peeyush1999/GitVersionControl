@@ -6,6 +6,7 @@ File Structure :
 ------>main.cpp (entry point of our program)
 		|-----> headers.h
 		|-----> misc.h
+		|----->status.h
 		|-----> init.h
 		|-----> commit.h
 		|-----> add.h 

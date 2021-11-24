@@ -45,7 +45,7 @@ void git_status()
                 //cout<<endl<<checkfile<<endl;
                 // auto it = map1.find(current);
                 if (mp.find(current) == mp.end()) {
-                    cout << "untracked : " << current << endl;
+                    cout << RED("untracked : " )<< current << endl;
                     untracked.push_back(current);
                     // cout<<endl;
                 } 
@@ -55,12 +55,12 @@ void git_status()
                     //cout<<sha1<<endl;
                     if (mp[current] == sha1) 
                     {
-                        cout << "newfile added : " << current << endl;
+                        cout <<GREEN( "newfile added : " )<< current << endl;
                         newfile.push_back(current);
                     } 
                     else 
                     {
-                        cout << "modified : " << current << endl;
+                        cout << RED("modified : " )<< current << endl;
                         modified.push_back(current);
                     }
                 }
