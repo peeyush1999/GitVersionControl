@@ -123,6 +123,9 @@ void git_push()
                     fetch_file_push(ver_num, name.first, name.second, push_dir);
             }
         }
+        
+
+        vector <string> filesincurrentdirectory = getAndSortFiles(cwd);
         // delete the file in push_directory if deleted in local repository
         for (auto name : pushfileDetails)
         {

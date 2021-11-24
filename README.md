@@ -30,6 +30,7 @@ File Structure :
 		|-----> void fetch_file(string, string, vector<string>, string)
 		|-----> void retrieve_file(string, string, vector<string>, string)
 		|-----> void fetch_file_push(string, string, vector<string>, string)
+		|-----> void getAndSortFiles(string)
 
 ------>init.h
 		|-----> void git_init()
@@ -47,6 +48,9 @@ File Structure :
 
 ------>rollback.h
 		|----->	void git_rollback()	
+
+------>pull.h
+		|----->	void git_pull()	
 
 
 //======================================

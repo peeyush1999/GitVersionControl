@@ -221,3 +221,20 @@ void fetch_file_push(string vno, string filename, vector<string> list1, string p
         LOG(CYAN(generate_file_cmd));
     }
 }
+vector<string> getAndSortFiles(string remote_directory)
+{
+    vector<string> files;
+    DIR *dir;
+    struct dirent **diread;
+    int n, i;
+    check(n = scandir(remote_directory.c_str(), &diread, 0, versionsort), "cannot able to scan the directory");
+    for (int i = 0; i < n; ++i)
+    {
+        if (diread[i]->d_name == "." || diread[i]->d_name == "..")
+            continue;
+        files.push_back(diread[i]->d_name);
+        free(diread[i]);
+    }
+    free(diread);
+    return files;
+}
