@@ -10,7 +10,7 @@ File Structure :
 		|-----> commit.h
 		|-----> add.h 
 		|-----> get_logs.h
-		|-----> add_files.h(in progress)
+		|-----> add_files.h
 		|-----> git_diff.h
 		|-----> push.h
 		|-----> rollback.h
