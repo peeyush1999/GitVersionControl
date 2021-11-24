@@ -9,6 +9,7 @@
 #include "git_diff.h"
 #include "push.h"
 #include "rollback.h"
+#include "pull.h"
 
 int main(int argc, char *argv[])
 {
@@ -103,6 +104,19 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
+        if(cmd == "pull")
+        {
+            if(isdir)
+            {
+                git_pull();
+                exit(0);
+            }
+            else
+            {
+                cout << RED("Git directory not Initialised") << endl;
+                exit(0);
+            }
+        }
     }
     if (argc == 3)
     {
@@ -161,6 +175,7 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
+        
     }
 
     return 0;
