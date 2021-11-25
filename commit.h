@@ -55,7 +55,7 @@ void git_commit()
     outfile.open(log_file, ios::app);
 
     // writing commit time into log file
-    string toLog = "Commit No:" + to_string(v_no - 1) + " Commit Time: " + Time;
+    string toLog = "Commit No:" + to_string(v_no - 1) + " Commit by: " + cwd + " Commit Time: " + Time;
     outfile << toLog;
     outfile.close();
 
@@ -63,5 +63,5 @@ void git_commit()
     add_commit_file_out << "11 " << push_directory;
     add_commit_file_out.close();
 
-    cout << YELLOW_B("      Commit Successful!!!") << endl;
+    cout << YELLOW_B("\t\tCommit Successful!!!") << endl;
 }

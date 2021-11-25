@@ -51,5 +51,5 @@ void git_init()
         check(mkdir(push_dir.c_str(), 0777), "unable to create directory");
     }
 
-    cout << YELLOW_B("       Git Initialised") << endl;
+    cout << YELLOW_B("\t\tGit Initialised") << endl;
 }

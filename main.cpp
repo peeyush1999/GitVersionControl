@@ -13,16 +13,36 @@
 
 int main(int argc, char *argv[])
 {
-    char tmp[256];
-    getcwd(tmp, 256);
-    cwd = tmp;
-    
+    if (argc < 3)
+    {
+        cout << "Arguments format: ./main command pathoflocalrepository" << endl;
+        cout << RED("Insufficient arguments") << endl;
+        exit(0);
+    }
+    if (argc == 3)
+    {
+        if (argv[2][0] != '/')
+        {
+            cout << RED("last argument should be path of local repository") << endl;
+            exit(0);
+        }
+        cwd = argv[2];
+    }
+    else if (argc == 4)
+    {
+        if (argv[3][0] != '/')
+        {
+            cout << RED("last argument should be path of local repository") << endl;
+            exit(0);
+        }
+        cwd = argv[3];
+    }
     string gitdir = cwd + "/git";
     struct stat sb;
     stat(gitdir.c_str(), &sb);
     bool isdir = S_ISDIR(sb.st_mode);
     string cmd = argv[1];
-    if (argc == 2)
+    if (argc == 3)
     {
         if (cmd == "init")
         {
@@ -76,12 +96,12 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
-        if(cmd == "log")
+        if (cmd == "log")
         {
-            if(isdir)
+            if (isdir)
             {
                 get_logs();
-                cout<<endl;
+                cout << endl;
                 exit(0);
             }
             else
@@ -90,12 +110,12 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
-        if(cmd == "rollback")
+        if (cmd == "rollback")
         {
-            if(isdir)
+            if (isdir)
             {
                 git_rollback();
-                cout<<endl;
+                cout << endl;
                 exit(0);
             }
             else
@@ -104,9 +124,9 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
-        if(cmd == "pull")
+        if (cmd == "pull")
         {
-            if(isdir)
+            if (isdir)
             {
                 git_pull();
                 exit(0);
@@ -118,7 +138,7 @@ int main(int argc, char *argv[])
             }
         }
     }
-    if (argc == 3)
+    if (argc == 4)
     {
         string attr = argv[2];
         if (cmd == "add" && attr == ".")
@@ -175,7 +195,6 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
-        
     }
 
     return 0;

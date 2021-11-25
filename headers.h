@@ -16,6 +16,7 @@
 #include <dirent.h>
 #include "mycolors.h"
 
+#define DEBUG
 #ifdef DEBUG
 
 #define LOG(x) cout << RED("LOG: ") << x << endl;

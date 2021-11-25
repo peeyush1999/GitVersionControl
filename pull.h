@@ -28,8 +28,6 @@ void git_pull()
 
         for (string fname : filenames)
         {
-            if(fname == "." || fname == "..")
-                continue;
             string fpath = remote_dir + "/" + fname;
             string bash_cmd = "cp " + fpath + " " + cwd + "/" + fname;
             system(&bash_cmd[0]);
@@ -69,8 +67,6 @@ void git_pull()
 
         for (string fname : filenames)
         {
-            if(fname == "." || fname == "..")
-                continue;
             string fpath = remote_dir + "/" + fname;
             string sha = get_sha(fpath);
             remotefileDetails[fname] = sha;
@@ -111,5 +107,11 @@ void git_pull()
         push_file.close();
     }
 
-    cout << YELLOW_B("      Pulled Successfully!!!") << endl;
+    string src = push_directory + "/git";
+    string dest = cwd;
+    string rmsrc = cwd + "/git";
+    remove_git(rmsrc);
+    copy_git(src, dest);
+
+    cout << YELLOW_B("\t\tPulled Successfully!!!") << endl;
 }

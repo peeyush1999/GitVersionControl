@@ -221,6 +221,24 @@ void fetch_file_push(string vno, string filename, vector<string> list1, string p
         LOG(CYAN(generate_file_cmd));
     }
 }
+bool check_dir(string path)
+{
+    struct stat sb;
+    stat(path.c_str(), &sb);
+    return S_ISDIR(sb.st_mode);
+}
+void copy_git(string src ,string dest)
+{
+    string bash_cmd = "cp -R " + src + " " + dest;
+    system(&bash_cmd[0]);
+    LOGC("Command Executed : " + bash_cmd);
+}
+void remove_git(string rmsrc)
+{
+    string bash_cmd = "rm -r " + rmsrc;
+    system(&bash_cmd[0]);
+    LOGC("Command Executed : " + bash_cmd);
+}
 vector<string> getAndSortFiles(string remote_directory)
 {
     vector<string> files;
@@ -230,7 +248,7 @@ vector<string> getAndSortFiles(string remote_directory)
     check(n = scandir(remote_directory.c_str(), &diread, 0, versionsort), "cannot able to scan the directory");
     for (int i = 0; i < n; ++i)
     {
-        if (diread[i]->d_name == "." || diread[i]->d_name == "..")
+        if (!strcmp(diread[i]->d_name,".") || !strcmp(diread[i]->d_name,"..") || !strcmp(diread[i]->d_name,"git"))
             continue;
         files.push_back(diread[i]->d_name);
         free(diread[i]);

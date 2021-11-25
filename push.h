@@ -11,13 +11,13 @@ void git_push()
 
     if (check_bit == "00")
     {
-        cout << RED("       Please add and commit first") << endl;
+        cout << RED("\t\tPlease add and commit first") << endl;
         exit(0);
     }
 
     if (check_bit == "10")
     {
-        cout << RED("       Please commit first") << endl;
+        cout << RED("\t\tPlease commit first") << endl;
         exit(0);
     }
 
@@ -123,9 +123,8 @@ void git_push()
                     fetch_file_push(ver_num, name.first, name.second, push_dir);
             }
         }
-        
 
-        vector <string> filesincurrentdirectory = getAndSortFiles(cwd);
+        vector<string> filesincurrentdirectory = getAndSortFiles(cwd);
         // delete the file in push_directory if deleted in local repository
         for (auto name : pushfileDetails)
         {
@@ -147,5 +146,21 @@ void git_push()
     add_commit_file_out << "00 " << push_directory;
     add_commit_file_out.close();
 
-    cout << YELLOW_B("      Local changes are successfully pushed to remote repository ") << BROWN_B(push_dir) << endl;
+    string remoterepo_path = push_directory + "/git";
+    if (!check_dir(remoterepo_path))
+    {
+        string src = cwd+"/git";
+        string dest = push_directory;
+        copy_git(src,dest);
+    }
+    else
+    {
+        string src = cwd+"/git";
+        string dest = push_directory;
+        string rmsrc = push_directory+"/git";
+        remove_git(rmsrc);
+        copy_git(src,dest);
+    }
+
+    cout << YELLOW_B("\t\tLocal changes are successfully pushed to remote repository ") << BROWN_B(push_dir) << endl;
 }
