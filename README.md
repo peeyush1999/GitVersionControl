@@ -31,6 +31,9 @@ File Structure :
 		|-----> void retrieve_file(string, string, vector<string>, string)
 		|-----> void fetch_file_push(string, string, vector<string>, string)
 		|-----> void getAndSortFiles(string)
+		|-----> void remove_git(string)
+		|-----> void copy_git(string,string)
+		|-----> bool check_dir(string)
 
 ------>init.h
 		|-----> void git_init()
@@ -57,3 +60,15 @@ File Structure :
 Notes : Error Handling is not implemented for sha calculation.
 
 steps To calculate Sha of file : pass correct path for that file to get_sha () function in string format.
+
+
+NOTEEEEEEE:
+//================================================================
+Each command should be executed in the following way
+./main command path_of_the_local_repository 
+
+
+why I changed ?
+When working on dfferent local repos if I want to do any operation I need to have all my code in the current working repository.So if we pass the path as CLI we can make any changes for any repository without copying our whole code again to all the repositories.Please make changes to the commands on what you worked accordingly.
+
+I found a problem in add command.There the files are accessed using relative path.So some error is coming.Make the files to be accessed using absolute path acoording to the given input i.e 'path_of_the_local_repository'.Similarly check for every command you worked on.

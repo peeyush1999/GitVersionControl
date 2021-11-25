@@ -8,10 +8,14 @@ void git_init()
     string add_commit = cwd + "/git/add_commit.txt";
     string pushFile = cwd + "/git/push_index.txt";
 
+
+    string git_folder = cwd + "/git";
+    string git_version = cwd + "/git/version";
+    
     // creating the directories
-    check(mkdir("git", 0777), "unable to create directory");
-    check(mkdir("git/version", 0777), "unable to create directory");
-    check(mkdir("git/version/v_1", 0777), "unable to create directory");
+    check(mkdir(git_folder.c_str(), 0777), "unable to create directory12");
+    check(mkdir(git_version.c_str(), 0777), "unable to create directory13");
+    check(mkdir(path.c_str(), 0777), "unable to create directory14");
 
     // creating log file
     ofstream log_file(logfile.c_str());

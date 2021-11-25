@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 3)
     {
-        cout << "Arguments format: ./main command pathoflocalrepository" << endl;
+        cout << RED("Arguments format: ./main command pathoflocalrepository") << endl;
         cout << RED("Insufficient arguments") << endl;
         exit(0);
     }
