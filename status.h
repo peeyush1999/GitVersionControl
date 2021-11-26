@@ -62,12 +62,12 @@ void git_status()
                     //cout<<sha1<<endl;
                     if (mp[current] == sha1) 
                     {
-                        cout <<GREEN( "newfile added : " )<< current << endl;
+                        cout <<GREEN( "Tracked : " )<< current << endl;
                         newfile.push_back(current);
                     } 
                     else 
                     {
-                        cout << RED("modified : " )<< current << endl;
+                        cout << YELLOW("modified : " )<< current << endl;
                         modified.push_back(current);
                     }
                 }

@@ -4,12 +4,12 @@
 
 if [ -d ~/bin ] 
 then
-    echo "Directory /path/to/dir exists." 
+    echo "Directory exists." 
 else
     mkdir ~/bin
 fi
 string2="/home/$USER/bin:$PATH"
-echo $string2
+#echo $string2
 string1="export PATH=\"/home/$USER/bin:$PATH"
 
 if  grep $string2 ~/.bashrc ;

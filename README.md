@@ -72,3 +72,20 @@ why I changed ?
 When working on dfferent local repos if I want to do any operation I need to have all my code in the current working repository.So if we pass the path as CLI we can make any changes for any repository without copying our whole code again to all the repositories.Please make changes to the commands on what you worked accordingly.
 
 I found a problem in add command.There the files are accessed using relative path.So some error is coming.Make the files to be accessed using absolute path acoording to the given input i.e 'path_of_the_local_repository'.Similarly check for every command you worked on.
+
+
+
+
+#Update: 26-November-2021
+Steps to Install 'TeamRocket- Version Control System (trgit)'
+
+- Provide Executable permission to 'install.sh' File.
+- Execute 'install.sh'
+- Once installed you can use it anywhere in your machine
+
+Some Sample Commands:-
+	- trgit init
+	- trgit status
+	- trgit add <filename>
+	- trgit add .
+
