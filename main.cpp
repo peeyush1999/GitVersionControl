@@ -13,36 +13,21 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc < 3)
+    if (argc < 2)
     {
-        cout << RED("Arguments format: ./main command pathoflocalrepository") << endl;
         cout << RED("Insufficient arguments") << endl;
         exit(0);
     }
-    if (argc == 3)
-    {
-        if (argv[2][0] != '/')
-        {
-            cout << RED("last argument should be path of local repository") << endl;
-            exit(0);
-        }
-        cwd = argv[2];
-    }
-    else if (argc == 4)
-    {
-        if (argv[3][0] != '/')
-        {
-            cout << RED("last argument should be path of local repository") << endl;
-            exit(0);
-        }
-        cwd = argv[3];
-    }
+    char tmp[256];
+    getcwd(tmp, 256);
+    cwd = tmp;
+
     string gitdir = cwd + "/git";
     struct stat sb;
     stat(gitdir.c_str(), &sb);
     bool isdir = S_ISDIR(sb.st_mode);
     string cmd = argv[1];
-    if (argc == 3)
+    if (argc == 2)
     {
         if (cmd == "init")
         {
@@ -138,7 +123,7 @@ int main(int argc, char *argv[])
             }
         }
     }
-    if (argc == 4)
+    if (argc == 3)
     {
         string attr = argv[2];
         if (cmd == "add" && attr == ".")
