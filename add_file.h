@@ -1,5 +1,20 @@
 void git_add_file(string filename)
 {
+	string add_commit = cwd + "/git/add_commit.txt";
+	ifstream add_commit_file;
+	add_commit_file.open(add_commit.c_str(),ios::in);
+	string check_bit, push_directory;
+	getline(add_commit_file, check_bit, ' ');
+	getline(add_commit_file, push_directory, ' ');
+	add_commit_file.close();
+
+	if (push_directory == "")
+    {
+        cout << RED("\t\tPlease clone first") << endl;
+		return;
+    }
+
+	
 	string version = cwd + "/git/version.txt";
 
 	ifstream in(version);
@@ -96,13 +111,7 @@ void git_add_file(string filename)
 	}
 	out.close();
 
-	string add_commit = cwd + "/git/add_commit.txt";
-	ifstream add_commit_file;
-	add_commit_file.open(add_commit.c_str(),ios::in);
-	string check_bit, push_directory;
-	getline(add_commit_file, check_bit, ' ');
-	getline(add_commit_file, push_directory, ' ');
-	add_commit_file.close();
+	
 
 	ofstream add_commit_file_out(add_commit.c_str());
 	add_commit_file_out << "10 " << push_directory;

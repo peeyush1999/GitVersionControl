@@ -10,6 +10,7 @@
 #include "push.h"
 #include "rollback.h"
 #include "pull.h"
+#include "git_clone.h"
 
 int main(int argc, char *argv[])
 {
@@ -33,7 +34,8 @@ int main(int argc, char *argv[])
         {
             if (!(isdir))
             {
-                git_init();
+                git_init(cwd);
+                cout << YELLOW_B("\t\tGit Initialised") << endl;
                 exit(0);
             }
             else
@@ -179,6 +181,24 @@ int main(int argc, char *argv[])
                 cout << RED("Git directory not Initialised") << endl;
                 exit(0);
             }
+        }
+        if (cmd == "clone")
+        {
+            if (isdir)
+            {
+                git_clone(argv[2]);
+                exit(0);
+            }
+            else
+            {
+                cout << RED("Git directory not Initialised") << endl;
+                exit(0);
+            }
+        }
+        if (cmd == "create_repo")
+        {
+            create_remote_repo(argv[2]);
+            exit(0);
         }
     }
 

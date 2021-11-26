@@ -34,6 +34,9 @@ File Structure :
 		|-----> void remove_git(string)
 		|-----> void copy_git(string,string)
 		|-----> bool check_dir(string)
+		|-----> void update_remote_git(string src, string dest)
+		|-----> void update_files_remote(string src, string dest)
+		|-----> unordered_set<string> get_versions_folders(string path)
 
 ------>init.h
 		|-----> void git_init()
@@ -54,6 +57,10 @@ File Structure :
 
 ------>pull.h
 		|----->	void git_pull()	
+
+------>git_clone.h
+		|-----> void create_remote_repo(string remote_repo_path)
+		|----->	void git_clone(string remote_repo_path)	
 
 
 //======================================
@@ -89,3 +96,12 @@ Some Sample Commands:-
 	- trgit add <filename>
 	- trgit add .
 
+==================================================
+#### LIMITATION IN OUR PROJECT IS 'USER' NEED TO PULL BEFORE EVERY 'add' command  push after every commit command inorder to be updated w.r.t remote repo.Else our push,pull logic won't work 
+
+Added clone command - syntax: ./main clone remote_repo_path
+----> clone can be done only after 'init' same as original GIT.We need to clone whenever we create a new local repository.
+
+added an extra command called 'create_repo'   
+syntax: ./main create_repo remote_repo_path 
+----> This will create a remote repository just like how we do in original GIT.This command is similar to the action (going to git website and creating the repository)
