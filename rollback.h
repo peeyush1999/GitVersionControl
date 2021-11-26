@@ -7,7 +7,18 @@ void git_rollback()
 	in >> v_no;
 	in.close();
 
+	int newNum = (stoi(v_no)+1);
+	string newVersion = to_string(stoi(v_no)+1);
 
+	string newDirectory = cwd + "/git/version/v_" + newVersion;
+    check(mkdir(newDirectory.c_str(), 0777), "unable to create directory");
+
+
+    // copying index file contents to new index file
+    string pPath = cwd + "/git/version/v_" + to_string(stoi(v_no) - 1);
+    string prevIndexPath = cwd + "/git/version/v_" + to_string(stoi(v_no) - 1) + "/index.txt";
+    string newIndexPath = cwd + "/git/version/v_" + to_string(stoi(v_no) + 1) + "/index.txt";
+    copyFile(prevIndexPath, newIndexPath);
 
 	if(v_no=="1")
 	{
@@ -17,7 +28,7 @@ void git_rollback()
 
 	int vnum = stoi(v_no);
 
-	string removePath = cwd+"/git/version/v_"+v_no; 
+	//string removePath = cwd+"/git/version/v_"+v_no; 
 	//string prevVersion = to_string(vnum-1);
 
 
@@ -27,6 +38,7 @@ void git_rollback()
 	LOGY("CWD:"+cwd);
 	LOGY("Path1 : "+path1);
 	LOGY("index file:"+ind_file);
+	LOGY("New Version"+newVersion);
 
 	unordered_map<string, vector<string> > mmap;
 	ifstream index(ind_file);
@@ -53,11 +65,28 @@ void git_rollback()
 	int n = scandir(&cwd[0], &namelist, NULL, alphasort);
 	vector<string> currDirItem;
 
+
 	for(int i=0;i<n;i++)
+	{
+		string filename(namelist[i]->d_name);
+	      stat(&filename[0], &statbuf);
+
+	    if(mmap.find(filename)==mmap.end())
+    	{
+    		LOGR(filename + " removed as not present in previous version!!");
+            string cmd="rm "+filename;
+            system(&cmd[0]);
+            LOGC(cmd);
+    	}
+
+	}
+
+	for(auto it : mmap)
 	   {
-	   		string filename(namelist[i]->d_name);
-	       	stat(namelist[i]->d_name, &statbuf);
-	       	currDirItem.push_back(filename);
+	   		string filename=it.first;
+	   		//string filename(namelist[i]->d_name);
+	       	stat(&filename[0], &statbuf);
+	       	//currDirItem.push_back(filename);
 	       	
 
 	       	if(statbuf.st_mode & S_IFDIR)//True: Directory
@@ -66,39 +95,36 @@ void git_rollback()
 	        }
 	        else
 	        {
-	            // current object is file calculating sha
-	        	//string sha = get_sha(filename);
-	        	
-
-
-	        	if(mmap.find(filename)==mmap.end())
-	        	{
-	        		LOGR(filename + " removed as not present in previous version!!");
-                    string cmd="rm "+filename;
-                    system(&cmd[0]);
-                    LOGC(cmd);
-	        	}
-	        	else
-	        	{
-	        		
-	        			//LOGR(filename+" "+sha+" file is modified!!!");		
-	        			//mmap[filename][0]=sha;
-	        			
-        				LOG("Calling retrieve File!!!");
-        				retrieve_file(v_no,filename,mmap[filename],path1);
-	        				
-	        	}
-
-
-	            
+				LOG("Calling retrieve File!!!");
+				retrieve_file(v_no,filename,mmap[filename],path1);
 	        }
 
 	   }
 
-	   string cmd="rm -r "+removePath;
-	   system(&cmd[0]);
+	   n = scandir(&pPath[0], &namelist, NULL, alphasort);
 
-	   	string prevVersion = to_string(vnum-1);
+		for(int i=0;i<n;i++)
+		{
+			string filename(namelist[i]->d_name);
+		      stat(&filename[0], &statbuf);
+
+		    if((statbuf.st_mode & S_IFDIR) || filename=="index.txt")//True: Directory
+	        {
+	            continue;
+	        }
+	        else
+	        {
+				string prevPath = cwd + "/git/version/v_" + to_string(stoi(v_no) - 1) + "/"+filename;//"/index.txt";
+			    string newPath = cwd + "/git/version/v_" + to_string(stoi(v_no) + 1) + "/" +filename;//"/index.txt";
+			    copyFile(prevPath, newPath);
+	        }
+	        
+		}
+
+	   //string cmd="rm -r "+removePath;
+	   //system(&cmd[0]);
+
+	   	string prevVersion = to_string(vnum+1);
 
 		ofstream out(version, ios::trunc);
 		out<<prevVersion;
@@ -106,6 +132,6 @@ void git_rollback()
 
 
 
-	   cout<<GREEN("You are succesfully Rollbacked the Change!!! Now you are in version "+ prevVersion);
+	   cout<<GREEN("You are succesfully Rollbacked the Change!!! Now you are in version "+ newVersion);
 
 }

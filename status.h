@@ -40,6 +40,13 @@ void git_status()
             string current = ent->d_name;
             string checkfile;
             checkfile=cwd+"/"+current;
+            struct stat statbuf;
+            stat(&current[0], &statbuf);
+            if (statbuf.st_mode & S_IFDIR) //True: Directory
+            {
+                continue;
+            }
+
             if (exists_test3(checkfile)) 
             {
                 //cout<<endl<<checkfile<<endl;
