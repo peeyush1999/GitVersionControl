@@ -29,11 +29,6 @@ void git_push()
 
     if (infile.is_open())
         infile >> ver_num;
-    else
-    {
-        cout << RED("cannot open file");
-        exit(-1);
-    }
     infile.close();
 
     // getting data about files from index file of current version
@@ -68,83 +63,56 @@ void git_push()
     infile.close();
 
     string push_dir = push_directory;
-    string pushFile = cwd + "/git/push_index.txt";
-    ifstream pushFilein(pushFile.c_str());
-    string check_line;
-    pushFilein >> check_line;
-    pushFilein.close();
+    string pushFile = push_directory + "/git/push_index.txt";
 
-    if (check_line == "") // This is the first push
+    // getting filenames and their sha
+    infile.open(pushFile, ios::in);
+    unordered_map<string, string> pushfileDetails;
+
+
+    while (getline(infile, line))
     {
-        // storing the files and their sha which are pushed in push_index.txt
-        ofstream push_file(pushFile.c_str());
-        for (auto name : fileDetails)
-            push_file << name.first << " " << name.second[0] << "\n";
-        push_file.close();
+        string fname, sha;
+        stringstream ss(line);
+        getline(ss, fname, ' ');
+        getline(ss, sha, ' ');
+        pushfileDetails[fname] = sha;
+    }
+    infile.close();
 
-        // getting filenames which are needed to be pushed
-        vector<string> filenames;
-        for (auto name : fileDetails)
-            filenames.push_back(name.first);
-
-        // pushing the files to the push directory
-        for (auto name : fileDetails)
+    // comparing the sha of push_file and index file of current
+    for (auto name : fileDetails)
+    {
+        // If the file is newly introduced we are just pushing it to the push directory
+        if (pushfileDetails.find(name.first) == pushfileDetails.end())
             fetch_file_push(ver_num, name.first, name.second, push_dir);
-    }
-    else //This occurs for nth push other than one
-    {
-        // getting filenames and their sha
-        infile.open(pushFile, ios::in);
-        unordered_map<string, string> pushfileDetails;
-
-        line = "";
-
-        while (getline(infile, line))
+        else
         {
-            string fname, sha;
-            stringstream ss(line);
-            getline(ss, fname, ' ');
-            getline(ss, sha, ' ');
-            pushfileDetails[fname] = sha;
-        }
-        infile.close();
-
-        // comparing the sha of push_file and index file of current
-        for (auto name : fileDetails)
-        {
-            // If the file is newly introduced we are just pushing it to the push directory
-            if (pushfileDetails.find(name.first) == pushfileDetails.end())
+            // If the file is changed then we are just pushing the changed file
+            // to the push directory
+            if (pushfileDetails[name.first] != name.second[0])
                 fetch_file_push(ver_num, name.first, name.second, push_dir);
-            else
-            {
-                // If the file is changed then we are just pushing the changed file
-                // to the push directory
-                if (pushfileDetails[name.first] != name.second[0])
-                    fetch_file_push(ver_num, name.first, name.second, push_dir);
-            }
         }
-
-        vector<string> filesincurrentdirectory = getAndSortFiles(cwd);
-        // delete the file in push_directory if deleted in local repository
-        for (auto name : pushfileDetails)
-        {
-            if (fileDetails.find(name.first) == fileDetails.end())
-            {
-                string fpath = push_dir + "/" + name.first;
-                remove(fpath.c_str());
-            }
-        }
-
-        // updating the push_index.txt
-        ofstream push_file(pushFile.c_str());
-        for (auto name : fileDetails)
-            push_file << name.first << " " << name.second[0] << "\n";
-        push_file.close();
     }
 
-   
+    
+    // delete the file in push_directory if deleted in local repository
+    for (auto name : pushfileDetails)
+    {
+        if (fileDetails.find(name.first) == fileDetails.end())
+        {
+            string fpath = push_dir + "/" + name.first;
+            remove(fpath.c_str());
+        }
+    }
+
+    // updating the push_index.txt
+    ofstream push_file(pushFile.c_str());
+    for (auto name : fileDetails)
+        push_file << name.first << " " << name.second[0] << "\n";
+    push_file.close();
+
     update_remote_git(cwd, push_directory);
-   
 
     ofstream add_commit_file_out(add_commit.c_str());
     add_commit_file_out << "00 " << push_directory;
