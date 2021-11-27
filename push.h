@@ -142,25 +142,12 @@ void git_push()
         push_file.close();
     }
 
+   
+    update_remote_git(cwd, push_directory);
+   
+
     ofstream add_commit_file_out(add_commit.c_str());
     add_commit_file_out << "00 " << push_directory;
     add_commit_file_out.close();
-
-    string remoterepo_path = push_directory + "/git";
-    if (!check_dir(remoterepo_path))
-    {
-        string src = cwd+"/git";
-        string dest = push_directory;
-        copy_git(src,dest);
-    }
-    else
-    {
-        string src = cwd+"/git";
-        string dest = push_directory;
-        string rmsrc = push_directory+"/git";
-        remove_git(rmsrc);
-        copy_git(src,dest);
-    }
-
     cout << YELLOW_B("\t\tLocal changes are successfully pushed to remote repository ") << BROWN_B(push_dir) << endl;
 }
