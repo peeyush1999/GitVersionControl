@@ -1,4 +1,4 @@
-void git_rollback()
+void git_rollback(string rollVersion)
 {
 	string version = cwd+"/git/version.txt";
 	
@@ -10,14 +10,26 @@ void git_rollback()
 	int newNum = (stoi(v_no)+1);
 	string newVersion = to_string(stoi(v_no)+1);
 
+	if(to_string(stoi(rollVersion))==v_no)
+	{
+		cout<<"You are on same version!!!";
+		return;
+	}
+	else if(stoi(rollVersion)+1 >= stoi(v_no))
+	{
+		cout<<"Invalid Version!!!";
+		return;
+	}
+
+
 	string newDirectory = cwd + "/git/version/v_" + newVersion;
     check(mkdir(newDirectory.c_str(), 0777), "unable to create directory");
 
 
     // copying index file contents to new index file
-    string pPath = cwd + "/git/version/v_" + to_string(stoi(v_no) - 1);
-    string prevIndexPath = cwd + "/git/version/v_" + to_string(stoi(v_no) - 1) + "/index.txt";
-    string newIndexPath = cwd + "/git/version/v_" + to_string(stoi(v_no) + 1) + "/index.txt";
+    string pPath = cwd + "/git/version/v_" + rollVersion;
+    string prevIndexPath = cwd + "/git/version/v_" + rollVersion + "/index.txt";
+    string newIndexPath = cwd + "/git/version/v_" + newVersion + "/index.txt";
     copyFile(prevIndexPath, newIndexPath);
 
 	if(v_no=="1")
@@ -32,7 +44,7 @@ void git_rollback()
 	//string prevVersion = to_string(vnum-1);
 
 
-	string path1 =  cwd+"/git/version/v_"+to_string(vnum-1);
+	string path1 =  cwd+"/git/version/v_"+rollVersion;
 	string ind_file = path1 + "/index.txt";
 
 	LOGY("CWD:"+cwd);
@@ -57,6 +69,7 @@ void git_rollback()
 			mmap[parts[0]].push_back(parts[i]);
 			LOG("	|------>"+parts[i]);
 		}
+
 	}
 	index.close();
 
@@ -71,14 +84,20 @@ void git_rollback()
 		string filename(namelist[i]->d_name);
 	      stat(&filename[0], &statbuf);
 
-	    if(mmap.find(filename)==mmap.end())
-    	{
-    		LOGR(filename + " removed as not present in previous version!!");
-            string cmd="rm "+filename;
-            system(&cmd[0]);
-            LOGC(cmd);
-    	}
-
+	    if(statbuf.st_mode & S_IFDIR)//True: Directory
+	        {
+	            continue;
+	        }
+	        else
+	        {
+			    if(mmap.find(filename)==mmap.end())
+		    	{
+		    		LOGR(filename + " removed as not present in previous version!!");
+		            string cmd="rm "+filename;
+		            system(&cmd[0]);
+		            LOGC(cmd);
+		    	}
+    		}
 	}
 
 	for(auto it : mmap)
@@ -95,8 +114,26 @@ void git_rollback()
 	        }
 	        else
 	        {
+				
+				LOG(filename);
+
+				vector<string> list(mmap[filename].begin()+3,mmap[filename].end());
+				vector<string> cversion;
+				for(string s:list)
+				{
+					if(stoi(s)<=stoi(rollVersion))
+						cversion.push_back(s);
+					else
+						break;
+				}
+				cout<<"size"<<" "<<cversion.size()<<endl;
+				for(string s : cversion)
+				{
+					cout<<s<<" ";
+				}
+
 				LOG("Calling retrieve File!!!");
-				retrieve_file(v_no,filename,mmap[filename],path1);
+				retrieve_file(v_no,filename,cversion,path1);
 	        }
 
 	   }
@@ -114,9 +151,11 @@ void git_rollback()
 	        }
 	        else
 	        {
-				string prevPath = cwd + "/git/version/v_" + to_string(stoi(v_no) - 1) + "/"+filename;//"/index.txt";
+				string prevPath = cwd + "/git/version/v_" + rollVersion + "/"+filename;//"/index.txt";
 			    string newPath = cwd + "/git/version/v_" + to_string(stoi(v_no) + 1) + "/" +filename;//"/index.txt";
 			    copyFile(prevPath, newPath);
+			    LOGY("Copied File from Version Roll "<<rollVersion<<" to new Version"<<to_string(vnum+1));
+
 	        }
 	        
 		}

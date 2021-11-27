@@ -135,17 +135,20 @@ void fetch_file(string vno, string filename, vector<string> list1, string path1)
 }
 
 
-void retrieve_file(string vno, string filename, vector<string> list1, string path1)
+void retrieve_file(string vno, string filename, vector<string> list, string path1)
 {
+
+    LOGY("INside retrieve file");
     string v_no = vno;
-    vector<string> list(list1.begin()+3,list1.end());
+    //vector<string> list(list1.begin(),list1.end());
     //no changes required to file in current version
-    if(list.size()!=0  && (list[ list.size() -1 ] == v_no ) )
+    /*if(list.size()!=0)
     {
         list.pop_back();
-    }
+    }*/
     if(list.size()==1)
     {
+        LOGY("List Size is 1");
         //path where the file introduced for the first time....
         string parent_path = cwd + "/git/version/v_" + list[0] + "/"+filename;
         LOG(parent_path);
@@ -156,6 +159,7 @@ void retrieve_file(string vno, string filename, vector<string> list1, string pat
     }
     else
     {
+        LOGY("List Size is gt 1");
         string parent_path = cwd + "/git/version/v_";
         string temp_file   = cwd + "/git/version/temp";
 

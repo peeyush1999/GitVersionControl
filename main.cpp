@@ -95,20 +95,7 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
-        if (cmd == "rollback")
-        {
-            if (isdir)
-            {
-                git_rollback();
-                cout << endl;
-                exit(0);
-            }
-            else
-            {
-                cout << RED("Git directory not Initialised") << endl;
-                exit(0);
-            }
-        }
+        
         if (cmd == "pull")
         {
             if (isdir)
@@ -126,6 +113,20 @@ int main(int argc, char *argv[])
     if (argc == 3)
     {
         string attr = argv[2];
+        if (cmd == "rollback")
+        {
+            if (isdir)
+            {
+                git_rollback(attr);
+                cout << endl;
+                exit(0);
+            }
+            else
+            {
+                cout << RED("Git directory not Initialised") << endl;
+                exit(0);
+            }
+        }
         if (cmd == "add" && attr == ".")
         {
             if (isdir)
